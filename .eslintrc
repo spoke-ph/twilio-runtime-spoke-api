@@ -1,0 +1,8 @@
+{
+  "extends": ["spoke/presets/common"],
+  "globals": {
+    // These are available as globals in the Twilio runtime serverless environment
+    "Twilio": "readonly",
+    "Runtime": "readonly"
+  }
+}

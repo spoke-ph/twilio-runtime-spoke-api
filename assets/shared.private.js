@@ -56,4 +56,13 @@ const withAccessToken = (handlerFunction) => {
   };
 };
 
-module.exports = { httpResponse, withAccessToken };
+const apiRequestHeaders = (accessToken) => {
+  return {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${accessToken}`,
+    "User-Agent": "Twilio Runtime",
+    "Cache-Control": "no-cache"
+  };
+};
+
+module.exports = { httpResponse, withAccessToken, apiRequestHeaders };

@@ -1,40 +1,46 @@
+const R = require("ramda");
 const axios = require("axios");
 
-const path = Runtime.getAssets()["/shared.js"].path;
-const { httpResponse, withAccessToken } = require(path);
-
 /**
- * See docs on callback param - callback is not a promise callback - it simply stops execution of
- * the handler and returns the response to the caller.
+ * Twilio serverless runtime only has a simple shared module approach, using private assets
+ * deployed under the "assets" folder.
  */
+const path = Runtime.getAssets()["/shared.js"].path;
+const { httpResponse, withAccessToken, apiRequestHeaders } = require(path);
+
 async function getExtension({ context, event, callback, accessToken }) {
   const apiUrl = context.SPOKE_API_URL;
   const { extension } = event;
-
-  console.debug("[spoke:getExtension] Calling directory API", { extension });
+  const queryUrl = `${apiUrl}/directory?extension=${extension}`;
+  console.debug("[spoke:getExtension] Calling directory API", { queryUrl, extension });
 
   try {
-    const directoryResponse = await axios(`${apiUrl}/directory?extension=${extension}`, {
+    const directoryResponse = await axios(queryUrl, {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${accessToken}`,
-        "User-Agent": "Twilio Runtime",
-        "Cache-Control": "no-cache"
-      }
+      headers: apiRequestHeaders(accessToken)
     });
+
     console.debug("[spoke:getExtension] Directory response", { data: directoryResponse.data });
     const { entries } = directoryResponse.data;
-    const directoryEntry = entries[0]; // R.head
+    const directoryEntry = R.head(entries);
 
     if (!directoryEntry) {
       console.debug("[spoke:getExtension] Directory entry not found", { extension });
       return httpResponse(404, { errorMessage: `Extension ${extension} not found` }, callback);
     }
 
-    const { displayName, type, availability: { status, availabilitySummary }, twimlRedirectUrl } = directoryEntry;
+    const {
+      displayName,
+      type,
+      availability: { status, availabilitySummary },
+      twimlRedirectUrl
+    } = directoryEntry;
 
-    return httpResponse(200, { extension, displayName, type, status, availabilitySummary, twimlRedirectUrl }, callback);
+    return httpResponse(
+      200,
+      { extension, displayName, type, status, availabilitySummary, twimlRedirectUrl },
+      callback
+    );
   } catch (error) {
     console.error("[spoke:getExtension] Error", error);
     return httpResponse(401, {
