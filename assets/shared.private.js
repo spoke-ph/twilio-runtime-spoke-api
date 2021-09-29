@@ -1,7 +1,7 @@
 const axios = require("axios");
 
 const httpResponse = (statusCode, data, callback) => {
-  const response = new Twilio.Response();
+  const response = new Twilio.Response(); //TODO ignore or add Twilio to globales
   // CORS header required to allow Flex access to this function
   response.appendHeader("Access-Control-Allow-Origin", "*");
   response.appendHeader("Access-Control-Allow-Methods", "OPTIONS, POST, GET");
@@ -21,7 +21,7 @@ const getAccessToken = async (context) => {
     return {
       success: false,
       error: "Missing environment configuration for Spoke API connection"
-    }
+    };
   }
 
   try {
@@ -36,12 +36,11 @@ const getAccessToken = async (context) => {
     });
     const { access_token } = tokenResponse.data;
     return { success: true, accessToken: access_token };
-  }
-  catch (error) {
+  } catch (error) {
     console.log("ERROR", error);
     return { success: false, error };
   }
-}
+};
 
 const withAccessToken = (handlerFunction) => {
   return async (context, event, callback) => {
@@ -54,7 +53,7 @@ const withAccessToken = (handlerFunction) => {
     }
     console.debug("[spoke:withAccessToken] Got access token, calling handler function");
     return await handlerFunction({ context, event, callback, accessToken });
-  }
-}
+  };
+};
 
 module.exports = { httpResponse, withAccessToken };

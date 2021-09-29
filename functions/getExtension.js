@@ -23,8 +23,8 @@ async function getExtension({ context, event, callback, accessToken }) {
         "Cache-Control": "no-cache"
       }
     });
-    console.debug("[spoke:getExtension] Directory response", { data: directoryResponse.data })
-    const { meta, entries } = directoryResponse.data;
+    console.debug("[spoke:getExtension] Directory response", { data: directoryResponse.data });
+    const { entries } = directoryResponse.data;
     const directoryEntry = entries[0]; // R.head
 
     if (!directoryEntry) {

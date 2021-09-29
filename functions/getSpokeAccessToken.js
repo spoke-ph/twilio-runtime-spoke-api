@@ -5,7 +5,7 @@ async function getSpokeAccessToken(context, event, callback) {
   console.debug("[SPOKE] Getting Spoke API access token");
   const { success, accessToken, error } = await getAccessToken(context);
   if (!success) {
-    console.error("[SPOKE] Failed to retrieve Spoke API access token", { error })
+    console.error("[SPOKE] Failed to retrieve Spoke API access token", { error });
     return httpResponse(401, {
       success: false,
       errorMessage: error.toString()
