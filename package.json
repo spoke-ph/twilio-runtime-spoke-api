@@ -1,6 +1,6 @@
 {
-  "name": "spoke-api-twilio-serverless",
-  "version": "0.0.0",
+  "name": "twilio-runtime-spoke-api",
+  "version": "0.1.0-SNAPSHOT",
   "private": true,
   "scripts": {
     "lint": "eslint functions assets",

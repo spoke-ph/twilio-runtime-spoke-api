@@ -2,7 +2,7 @@
 	"commands": {},
 	"environments": {},
 	"projects": {},
-	"serviceName": "Spoke API Service",
+	"serviceName": "spoke-api-service",
 	"environment": "dev",
 	"loadLocalEnv": true,
 	"logLevel": "debug",
