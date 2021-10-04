@@ -6,18 +6,18 @@ const axios = require("axios");
  * deployed under the "assets" folder.
  */
 const path = Runtime.getAssets()["/shared.js"].path;
-const { httpResponse, withAccessToken, apiRequestHeaders } = require(path);
+const { httpResponse, withAccessToken, spokeApiRequestHeaders } = require(path);
 
 async function getExtension({ context, event, callback, accessToken }) {
-  const apiUrl = context.SPOKE_API_URL;
-  const { extension } = event;
-  const queryUrl = `${apiUrl}/directory?extension=${extension}`;
-  console.debug("[spoke:getExtension] Calling directory API", { queryUrl, extension });
-
   try {
+    const apiUrl = context.SPOKE_API_URL;
+    const { extension } = event;
+    const queryUrl = `${apiUrl}/directory?extension=${extension}`;
+    console.debug("[spoke:getExtension] Calling directory API", { queryUrl, extension });
+
     const directoryResponse = await axios(queryUrl, {
       method: "GET",
-      headers: apiRequestHeaders(accessToken)
+      headers: spokeApiRequestHeaders(accessToken)
     });
 
     console.debug("[spoke:getExtension] Directory response", { data: directoryResponse.data });
@@ -29,6 +29,11 @@ async function getExtension({ context, event, callback, accessToken }) {
       return httpResponse(404, { errorMessage: `Extension ${extension} not found` }, callback);
     }
 
+    /**
+     * The attributes below are documented at https://developer.spokephone.com under
+     * `GET Directory`. The fields below are destructured as an example. Any of the
+     * fields documented in the API can also be included.
+     */
     const {
       displayName,
       type,

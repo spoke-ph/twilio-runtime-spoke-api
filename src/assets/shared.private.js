@@ -1,7 +1,14 @@
 const axios = require("axios");
 
+/**
+ * Twilo callback ends execute of the current function context and returns
+ * the specified httpResponse
+ * @param {*} statusCode
+ * @param {*} data
+ * @param {*} callback
+ */
 const httpResponse = (statusCode, data, callback) => {
-  const response = new Twilio.Response(); //TODO ignore or add Twilio to globales
+  const response = new Twilio.Response(); //TODO ignore or add Twilio to globals
   // CORS header required to allow Flex access to this function
   response.appendHeader("Access-Control-Allow-Origin", "*");
   response.appendHeader("Access-Control-Allow-Methods", "OPTIONS, POST, GET");
@@ -37,26 +44,27 @@ const getAccessToken = async (context) => {
     const { access_token } = tokenResponse.data;
     return { success: true, accessToken: access_token };
   } catch (error) {
-    console.log("ERROR", error);
     return { success: false, error };
   }
 };
 
-const withAccessToken = (handlerFunction) => {
+const withAccessToken = (asyncHandlerFunction) => {
   return async (context, event, callback) => {
     console.debug("[spoke:withAccessToken] Getting Spoke API access token");
     const { success, accessToken, error } = await getAccessToken(context);
 
     if (!success) {
-      console.error("[spoke:withAccessToken] Failed to retrieve Spoke API access token", { error });
+      console.error("[spoke:withAccessToken] Failed to retrieve Spoke API access token", { error: error.toString() });
       return httpResponse(401, { errorMessage: error.toString() }, callback);
     }
     console.debug("[spoke:withAccessToken] Got access token, calling handler function");
-    return await handlerFunction({ context, event, callback, accessToken });
+    const result = await asyncHandlerFunction({ context, event, callback, accessToken });
+    console.debug("[spoke:withAccessToken] Called async handler, returning", { result });
+    return result;
   };
 };
 
-const apiRequestHeaders = (accessToken) => {
+const spokeApiRequestHeaders = (accessToken) => {
   return {
     "Content-Type": "application/json",
     "Authorization": `Bearer ${accessToken}`,
@@ -65,4 +73,4 @@ const apiRequestHeaders = (accessToken) => {
   };
 };
 
-module.exports = { httpResponse, withAccessToken, apiRequestHeaders };
+module.exports = { httpResponse, getAccessToken, withAccessToken, spokeApiRequestHeaders };
