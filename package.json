@@ -5,7 +5,7 @@
   "scripts": {
     "lint": "eslint src",
     "start": "npm run lint && twilio-run",
-    "deploy": "npm run lint && twilio-run deploy",
+    "deploy": "npm run lint && npm run test && twilio serverless:deploy",
     "test": "npm run lint && nyc mocha \"test/**/*.test.js\" && nyc report --reporter=html",
     "test:quick": "mocha \"test/**/*.test.js\"",
     "test:watch": "DEBUG=true mocha \"test/**/*.test.js\" --watch --watch-files ./src/**/*.js, ./test/**/*.js"
