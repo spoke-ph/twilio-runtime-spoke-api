@@ -4,8 +4,6 @@ Twilio Runtime serverless functions for the Spoke Developer API.
 ## Overview
 This repository contains quickstart functions that make it easy to interconnect the Spoke Developer API with Twilio applications such as Studio and Flex. Using this API allows you to integrate Spoke's programmable softphone app with any Twilio application that is hosted in the same account.
 
-Spoke API documentation is available at https://developer.spokephone.com.
-
 ## Features
 
 * Automatic & secure management of Spoke OAuth 2.0 access tokens
@@ -19,9 +17,9 @@ Spoke API documentation is available at https://developer.spokephone.com.
 1. Twilio Account or Project
 2. Spoke Account: Signup for a free developer account at https://account.spokephone.com/signup?vendor=twilio. You will need your twilio account sid and auth token to complete the signup flow
 3. Spoke Developer API credentials - get these from https://account.spokephone.com/developer-api
-\4. NodeJS 12, NPM 6 installed locally
-* Twilio CLI installed locally - https://www.twilio.com/docs/twilio-cli/quickstart
-* Twilio Serverless Plugin installed locally - https://www.twilio.com/docs/labs/serverless-toolkit/getting-started#install-the-twilio-serverless-toolkit
+4. NodeJS 12, NPM 6 installed locally
+5. Twilio CLI installed locally - https://www.twilio.com/docs/twilio-cli/quickstart
+6. Twilio Serverless Plugin installed locally - https://www.twilio.com/docs/labs/serverless-toolkit/getting-started#install-the-twilio-serverless-toolkit
 
 ## Deploy
 
