@@ -129,7 +129,7 @@ This project follows the Twilio Runtime private/protected/public model:
 
 * Files named `*.private.js` are only accessible by other assets/modules within the same service
 * Files named `*.protected.js` are accessible by other Twilio applications within the same project, including webhook handlers and Twilio Studio.  The serverless runtime will take care of validating the request signature of the incoming HTTP request
-* Files not following the above two conventions are publicly accessible. We strongly encourage you to **NOT** make functions publicly accessibly without some other form of authentication mechanism as you can potentially expose sensitive information.
+* Files not following the above two conventions are publicly accessible. We strongly encourage you **NOT** to make functions publicly accessibly without some other form of authentication mechanism as you can potentially expose sensitive information.
 
 ## Related
 
