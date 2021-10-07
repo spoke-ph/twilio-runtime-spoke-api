@@ -5,7 +5,7 @@ const axios = require("axios");
  * deployed under the "assets" folder.
  */
 const path = Runtime.getAssets()["/shared.js"].path;
-const { httpResponse, withAccessToken, apiRequestHeaders } = require(path);
+const { httpResponse, withAccessToken, spokeApiRequestHeaders } = require(path);
 
 async function listDirectory({ context, event, callback, accessToken }) {
   const apiUrl = context.SPOKE_API_URL;
@@ -19,7 +19,7 @@ async function listDirectory({ context, event, callback, accessToken }) {
 
     const directoryResponse = await axios(queryUrl, {
       method: "GET",
-      headers: apiRequestHeaders(accessToken)
+      headers: spokeApiRequestHeaders(accessToken)
     });
 
     console.debug("[spoke:listDirectory] Directory response", { data: directoryResponse.data });
