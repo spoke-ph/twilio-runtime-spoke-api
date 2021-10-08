@@ -14,12 +14,12 @@ This repository contains quickstart functions that make it easy to interconnect 
 
 ## Prerequisites
 
-* Twilio Account or Project
-* Spoke Account: Signup for a free developer account in 2 minutes at https://account.spokephone.com/signup?vendor=twilio. You will need your twilio account sid and auth token to complete the signup flow
-* Spoke Developer API credentials - get these from https://account.spokephone.com/developer-api
-* NodeJS 12, NPM 6 installed locally
-* Twilio CLI installed locally - https://www.twilio.com/docs/twilio-cli/quickstart
-* Twilio Serverless Plugin installed locally - https://www.twilio.com/docs/labs/serverless-toolkit/getting-started#install-the-twilio-serverless-toolkit
+1. Twilio Account or Project
+2. Spoke Account: Signup for a free developer account at https://account.spokephone.com/signup?vendor=twilio. You will need your twilio account sid and auth token to complete the signup flow
+3. Spoke Developer API credentials - get these from https://account.spokephone.com/developer-api
+4. NodeJS 12, NPM 6 installed locally
+5. Twilio CLI installed locally - https://www.twilio.com/docs/twilio-cli/quickstart
+6. Twilio Serverless Plugin installed locally - https://www.twilio.com/docs/labs/serverless-toolkit/getting-started#install-the-twilio-serverless-toolkit
 
 ## Deploy
 
@@ -122,6 +122,14 @@ async function mySpokeAPIFunction({ context, event, callback, accessToken }) {
 
 exports.handler = withAccessToken(mySpokeAPIFunction);
 ```
+
+## Security
+
+This project follows the Twilio Runtime private/protected/public model:
+
+* Files named `*.private.js` are only accessible by other assets/modules within the same service
+* Files named `*.protected.js` are accessible by other Twilio applications within the same project, including webhook handlers and Twilio Studio.  The serverless runtime will take care of validating the request signature of the incoming HTTP request
+* Files not following the above two conventions are publicly accessible. We strongly encourage you **NOT** to make functions publicly accessibly without some other form of authentication mechanism as you can potentially expose sensitive information.
 
 ## Related
 

@@ -1,4 +1,3 @@
-const R = require("ramda");
 const axios = require("axios");
 
 /**
@@ -22,7 +21,11 @@ async function getExtension({ context, event, callback, accessToken }) {
 
     console.debug("[spoke:getExtension] Directory response", { data: directoryResponse.data });
     const { entries } = directoryResponse.data;
-    const directoryEntry = R.head(entries);
+    /**
+     * There is a one to one mapping from extension to directory entry. Directory API response will
+     * always return an array.
+     */
+    const [directoryEntry] = entries;
 
     if (!directoryEntry) {
       console.debug("[spoke:getExtension] Directory entry not found", { extension });
@@ -37,7 +40,7 @@ async function getExtension({ context, event, callback, accessToken }) {
     const {
       displayName,
       type,
-      availability: { status, availabilitySummary },
+      availability: { status, availabilitySummary } = {},
       twimlRedirectUrl
     } = directoryEntry;
 
