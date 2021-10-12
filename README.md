@@ -1,4 +1,7 @@
 # twilio-runtime-spoke-api
+
+[![Spoke](https://circleci.com/gh/spoke-ph/twilio-runtime-spoke-api.svg?style=shield&circle-token=a7dc9f31cfd84f78656a5bcfeaf12834a44a732a)]()
+
 Twilio Runtime serverless functions for the Spoke Developer API.
 
 ## Overview
@@ -35,16 +38,22 @@ $ npm i
 
 ### 2. Twilio account credentials
 
-Setup your twilio account credentials using the Twilio CLI
+Setup your twilio account credentials using the Twilio CLI.
 
 ```bash
 $ twilio login
 $ twilio profiles:use {YOUR_ACCOUNT}
 ```
 
+The `twilio profiles:use` command instructs the Twilio CLI to use the twilio account credentials you provided in `twilio login` when running subsequent Twilio CLI commands.
+
+> Note: You can see your local list of twilio profiles with `twilio profiles:list`
+
 ### 3. Spoke Developer API Credentials
 
-Twilio's serverless deploy process will automatically upload any environment variables in your `.env` file to the Twilio service. Update `.env` with the following values using your favourite editor. The values for `YOUR_SPOKE_CLIENT_ID` and `YOUR_SPOKE_CLIENT_SECRET` are provided to you when you create a Developer API in your Spoke account:
+Twilio's serverless deploy process will automatically upload any environment variables in your `.env` file to the Twilio service.
+
+This project includes an example of this file, `.env.example`. Make a copy of `.env.example`, rename it to `.env` and then update the following values using your favourite editor. The values for `YOUR_SPOKE_CLIENT_ID` and `YOUR_SPOKE_CLIENT_SECRET` are provided to you when you create a Developer API in your Spoke account:
 
 ```
 SPOKE_CLIENT_ID={YOUR_SPOKE_CLIENT_ID}
@@ -55,12 +64,12 @@ SPOKE_API_URL=https://integration.spokephone.com
 
 ### 4. Deploy
 
-The deploy process will create a new Twilio Runtime service in your Spoke account called `spoke-api-service`.  The functions and environment variables in this project will be deployed into this service.
+The deploy step uses the Twilio CLI with the credentials provided in Step 2 to create a new Twilio Runtime service in your Spoke account called `spoke-api-service`.  The functions in this project, and environment variables you created in your `.env` file in Step 3 will be deployed into this service.
 
 ```bash
 $ npm run deploy
 ```
-When deployment has finished, the Twilio Serverless URL for the application will be printed to the console. This URL can be used to access the application:
+When deployment has finished, the Twilio Serverless URL for the application will be printed to the console. This URL can be used to access the application, for example:
 
 `Deployed to: https://spoke-api-service-1234-dev.twil.io`
 

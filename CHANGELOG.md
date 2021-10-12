@@ -2,7 +2,9 @@
 
 This repository adheres to semantic versioning and follows the conventions of [keepachangelog.com](http://keepachangelog.com).
 
-## Unreleased
+## [Unreleased]
+
+## [1.0.0] - 2021-10-12
 ### Added
 - Initial implementation of twilio runtime serverless functions
 - New shared library in `src/assets/shared.private.js`
@@ -12,4 +14,7 @@ This repository adheres to semantic versioning and follows the conventions of [k
   - `getExtension` queries API by extension and returns matching response if there is one.
   - `listDirectory` lists the directory, passing through response payload including paging token
 - Implemented first tests using `mocha`, `chai`, `sinon` and `istanbul`
-- Circle CI build config (no deploy, run tests only)
+- Circle CI build config
+  - Lint & test, github release tagging when merging non-SNAPSHOT versions to `main`
+
+[Unreleased]: https://github.com/spoke-ph/twilio-runtime-spoke-api/compare/v1.0.0...HEAD
