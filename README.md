@@ -69,6 +69,7 @@ The deploy step uses the Twilio CLI with the credentials provided in Step 2 to c
 ```bash
 $ npm run deploy
 ```
+
 When deployment has finished, the Twilio Serverless URL for the application will be printed to the console. This URL can be used to access the application, for example:
 
 `Deployed to: https://spoke-api-service-1234-dev.twil.io`
