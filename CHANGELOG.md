@@ -3,6 +3,8 @@
 This repository adheres to semantic versioning and follows the conventions of [keepachangelog.com](http://keepachangelog.com).
 
 ## [Unreleased]
+### Added
+- Github templates for issues and pull requests
 
 ## [1.0.0] - 2021-10-12
 ### Added
