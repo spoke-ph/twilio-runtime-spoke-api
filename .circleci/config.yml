@@ -26,6 +26,15 @@ jobs:
       - store_artifacts:
           path: coverage
           prefix: coverage
+      - deploy:
+          name: Tag Github Release
+          command: |
+              if [[ ("${CIRCLE_BRANCH}" == "main") && ($VERSION != *"SNAPSHOT") ]]; then
+                npm --loglevel silent run version | xargs -I {} git tag "v{}"
+                git push origin --tags
+              else
+                echo "Skip as branch not main"
+              fi
 workflows:
   version: 2
   build_test_deploy:
