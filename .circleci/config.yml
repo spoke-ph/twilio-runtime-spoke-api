@@ -27,12 +27,14 @@ jobs:
           path: coverage
           prefix: coverage
       - deploy:
-          if [[ ("${CIRCLE_BRANCH}" == "main") && ($VERSION != *"SNAPSHOT") ]]; then
-            npm --loglevel silent run version | xargs -I {} git tag "v{}"
-            git push origin --tags
-          else
-            echo "Skip as branch not main"
-          fi
+          name: Tag Github Release
+          command: |
+              if [[ ("${CIRCLE_BRANCH}" == "main") && ($VERSION != *"SNAPSHOT") ]]; then
+                npm --loglevel silent run version | xargs -I {} git tag "v{}"
+                git push origin --tags
+              else
+                echo "Skip as branch not main"
+              fi
 workflows:
   version: 2
   build_test_deploy:
