@@ -18,7 +18,7 @@ This repository contains quickstart functions that make it easy to interconnect 
 ## Prerequisites
 
 1. Twilio Account or Project
-2. Spoke Account: Signup for a free developer account at https://account.spokephone.com/signup?vendor=twilio. You will need your twilio account sid and auth token to complete the signup flow
+2. Spoke Account: Signup for a free developer account at https://account.spokephone.com/twilio. You will need your twilio account sid and auth token to complete the signup flow
 3. Spoke Developer API credentials - get these from https://account.spokephone.com/developer-api
 4. NodeJS 12, NPM 6 installed locally
 5. Twilio CLI installed locally - https://www.twilio.com/docs/twilio-cli/quickstart
