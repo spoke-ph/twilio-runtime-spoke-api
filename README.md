@@ -5,13 +5,15 @@
 Twilio Runtime serverless functions for the Spoke Developer API.
 
 ## Overview
-This repository contains quickstart functions that make it easy to interconnect the Spoke Developer API with Twilio applications such as Studio and Flex. Using this API allows you to integrate Spoke's programmable softphone app with any Twilio application that is hosted in the same account.
+This repository contains quickstart functions and example flows that make it easy to interconnect the Spoke Developer API with Twilio applications such as Studio and Flex. Using this API allows you to integrate Spoke's programmable softphone app with any Twilio application that is hosted in the same account.
 
 ## Features
 
 * Automatic & secure management of Spoke OAuth 2.0 access tokens
 * Get Spoke directory entries by extension
 * Lookup `twimlRedirectURL` for a Spoke extension
+* Check/get availability of a Spoke user
+* Check/get availability of users in a Spoke Call Group
 * List all directory entries (by page)
 * Functions are immediately available from within Twilio Studio to easily integrate Spoke Users, Groups and Devices to your Studio flows
 
@@ -23,8 +25,9 @@ This repository contains quickstart functions that make it easy to interconnect 
 4. NodeJS 12, NPM 6 installed locally
 5. Twilio CLI installed locally - https://www.twilio.com/docs/twilio-cli/quickstart
 6. Twilio Serverless Plugin installed locally - https://www.twilio.com/docs/labs/serverless-toolkit/getting-started#install-the-twilio-serverless-toolkit
+7. Your Spoke account setup correctly with Users, Call Groups, Devices and Extensions. [View this link for an example of how to make the most of your Spoke/Twilio environment](https://support.spokephone.com/hc/en-us/articles/4412982114061-Step-By-Step-Guide-Creating-The-Ideal-Spoke-Phone-Twilio-Development-and-Demonstration-Environment-Running-Demos-like-a-Pro-)
 
-## Deploy
+## Deploy quick-start functions
 
 ### 1. Checkout and install
 
@@ -77,6 +80,18 @@ When deployment has finished, the Twilio Serverless URL for the application will
 ### 5. Check setup
 
 Login to your project in the Twilio console, and go to the Develop --> Functions --> Services page. Click on the `spoke-api-service` service, then click on `Environment Variables` near the bottom of the page. Make sure that `SPOKE_CLIENT_ID`, `SPOKE_CLIENT_SECRET`, `SPOKE_AUTH_SERVICE_URL`, `SPOKE_API_URL` are correctly set.
+
+## Deploy Studio examples
+The Studio flows included in the `studio_flow_examples` folder are designed to be a quick-start to get you up and running integrating Studio to Spoke Phone.  They are real-world examples using the Spoke Developer API and functions you've just installed.
+
+To add the example flows to your Twilio project:
+1. Copy the flow JSON from the example file.
+2. Create a new Studio Flow in your Twilio Console, and select `Import from JSON`
+3. Paste in the JSON you copied in Step 1.
+4. Update any `Run Function` widgets to set the `SERVICE`, `ENVIRONMENT` and `FUNCTION` settings for your twilio environment.
+5. Publish the flow.
+
+To test the flow, you'll need to attach a Twilio Phone Number to the Flow, and make sure to have your Spoke environment properly setup and running. Once done, you're good to go!
 
 ## Local Development
 You can start a local development server by running the following command:
@@ -145,6 +160,7 @@ This project follows the Twilio Runtime private/protected/public model:
 
 * The Spoke API documentation is available at https://developer.spokephone.com
 * Spoke support and user guides are available at https://support.spokephone.com
+* Step-By-Step Guide: Creating The Ideal Spoke Phone / Twilio Development and Demonstration Environment at https://support.spokephone.com/hc/en-us/articles/4412982114061-Step-By-Step-Guide-Creating-The-Ideal-Spoke-Phone-Twilio-Development-and-Demonstration-Environment-Running-Demos-like-a-Pro-
 
 ## License
 

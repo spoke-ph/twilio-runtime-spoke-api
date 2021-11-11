@@ -4,6 +4,12 @@ This repository adheres to semantic versioning and follows the conventions of [k
 
 ## [Unreleased]
 
+## [1.1.0] - 2021-11-11
+### Added
+- New `studio_flow_examples` folder
+  - Includes `Basic Spoke IVR Flow` example
+  - Updated readme with instructions/details for using the flow with the Spoke functions.
+
 ## [1.0.1] - 2021-10-13
 ### Added
 - Github templates for issues and pull requests
@@ -21,5 +27,6 @@ This repository adheres to semantic versioning and follows the conventions of [k
 - Circle CI build config
   - Lint & test, github release tagging when merging non-SNAPSHOT versions to `main`
 
-[Unreleased]: https://github.com/spoke-ph/twilio-runtime-spoke-api/compare/v1.0.1...HEAD
+[Unreleased]: https://github.com/spoke-ph/twilio-runtime-spoke-api/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/spoke-ph/twilio-runtime-spoke-api/compare/v1.0.1...v1.1.0
 [1.0.1]: https://github.com/spoke-ph/twilio-runtime-spoke-api/compare/v1.0.0...v1.0.1
