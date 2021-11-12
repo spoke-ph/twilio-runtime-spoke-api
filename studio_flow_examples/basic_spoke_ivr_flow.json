@@ -1,0 +1,469 @@
+{
+  "description": "Spoke Default IVR Flow",
+  "states": [
+    {
+      "name": "Trigger",
+      "type": "trigger",
+      "transitions": [
+        {
+          "event": "incomingMessage"
+        },
+        {
+          "next": "welcome_message",
+          "event": "incomingCall"
+        },
+        {
+          "event": "incomingRequest"
+        }
+      ],
+      "properties": {
+        "offset": {
+          "x": -130,
+          "y": -40
+        }
+      }
+    },
+    {
+      "name": "welcome_message",
+      "type": "gather-input-on-call",
+      "transitions": [
+        {
+          "next": "split_welcome",
+          "event": "keypress"
+        },
+        {
+          "event": "speech"
+        },
+        {
+          "next": "replay_IVR",
+          "event": "timeout"
+        }
+      ],
+      "properties": {
+        "voice": "Polly.Joanna",
+        "number_of_digits": 4,
+        "speech_timeout": "auto",
+        "offset": {
+          "x": -100,
+          "y": 130
+        },
+        "loop": 1,
+        "finish_on_key": "#",
+        "say": "Welcome to ACME Demo, and thanks for calling.  If you know your parties extension you may enter it at any time. For Sales, press 1, for  Parts, press 2, for Customer Support press 3, or for anything else, just press zero.",
+        "language": "en-US",
+        "stop_gather": true,
+        "gather_language": "en-US",
+        "profanity_filter": "true",
+        "timeout": 5
+      }
+    },
+    {
+      "name": "get_extension",
+      "type": "run-function",
+      "transitions": [
+        {
+          "next": "send_to_spoke_no_return",
+          "event": "success"
+        },
+        {
+          "next": "InvalidExt",
+          "event": "fail"
+        }
+      ],
+      "properties": {
+        "service_sid": "",
+        "environment_sid": "",
+        "offset": {
+          "x": 220,
+          "y": 980
+        },
+        "function_sid": "",
+        "parameters": [
+          {
+            "value": "{{flow.variables.set_extension}}",
+            "key": "extension"
+          }
+        ],
+        "url": ""
+      }
+    },
+    {
+      "name": "send_to_spoke_no_return",
+      "type": "add-twiml-redirect",
+      "transitions": [
+        {
+          "event": "return"
+        },
+        {
+          "event": "timeout"
+        },
+        {
+          "event": "fail"
+        }
+      ],
+      "properties": {
+        "offset": {
+          "x": -80,
+          "y": 1210
+        },
+        "method": "POST",
+        "url": "{{widgets.get_extension.parsed.twimlRedirectUrl}}&returnTo=",
+        "timeout": "14400"
+      }
+    },
+    {
+      "name": "set_oth_ext",
+      "type": "set-variables",
+      "transitions": [
+        {
+          "next": "get_extension",
+          "event": "next"
+        }
+      ],
+      "properties": {
+        "variables": [
+          {
+            "value": "{{widgets.welcome_message.Digits}}",
+            "key": "set_extension"
+          }
+        ],
+        "offset": {
+          "x": -1310,
+          "y": 750
+        }
+      }
+    },
+    {
+      "name": "split_welcome",
+      "type": "split-based-on",
+      "transitions": [
+        {
+          "next": "set_oth_ext",
+          "event": "noMatch"
+        },
+        {
+          "next": "set_parts",
+          "event": "match",
+          "conditions": [
+            {
+              "friendly_name": "PARTS",
+              "arguments": [
+                "{{widgets.welcome_message.Digits}}"
+              ],
+              "type": "equal_to",
+              "value": "2"
+            }
+          ]
+        },
+        {
+          "next": "set_sales",
+          "event": "match",
+          "conditions": [
+            {
+              "friendly_name": "SALES",
+              "arguments": [
+                "{{widgets.welcome_message.Digits}}"
+              ],
+              "type": "equal_to",
+              "value": "1"
+            }
+          ]
+        },
+        {
+          "next": "set_support",
+          "event": "match",
+          "conditions": [
+            {
+              "friendly_name": "SUPPORT",
+              "arguments": [
+                "{{widgets.welcome_message.Digits}}"
+              ],
+              "type": "equal_to",
+              "value": "3"
+            }
+          ]
+        },
+        {
+          "next": "set_reception",
+          "event": "match",
+          "conditions": [
+            {
+              "friendly_name": "RECEPTION",
+              "arguments": [
+                "{{widgets.welcome_message.Digits}}"
+              ],
+              "type": "equal_to",
+              "value": "0"
+            }
+          ]
+        }
+      ],
+      "properties": {
+        "input": "{{widgets.welcome_message.Digits}}",
+        "offset": {
+          "x": -140,
+          "y": 470
+        }
+      }
+    },
+    {
+      "name": "replay_IVR",
+      "type": "gather-input-on-call",
+      "transitions": [
+        {
+          "next": "split_replay_IVR",
+          "event": "keypress"
+        },
+        {
+          "event": "speech"
+        },
+        {
+          "next": "No_input",
+          "event": "timeout"
+        }
+      ],
+      "properties": {
+        "voice": "Polly.Joanna",
+        "number_of_digits": 4,
+        "speech_timeout": "auto",
+        "offset": {
+          "x": 370,
+          "y": 240
+        },
+        "loop": 1,
+        "finish_on_key": "#",
+        "say": "If you know your parties extension, enter it at any time. For Sales, press 1, for  Parts, press 2, for Customer Support press 3, or for anything else, just press zero.",
+        "language": "en-US",
+        "stop_gather": true,
+        "gather_language": "en-US",
+        "profanity_filter": "true",
+        "timeout": 5
+      }
+    },
+    {
+      "name": "InvalidExt",
+      "type": "say-play",
+      "transitions": [
+        {
+          "next": "replay_IVR",
+          "event": "audioComplete"
+        }
+      ],
+      "properties": {
+        "voice": "Polly.Joanna",
+        "offset": {
+          "x": 260,
+          "y": 1210
+        },
+        "loop": 1,
+        "say": "Sorry, no such extension exists.",
+        "language": "en-US"
+      }
+    },
+    {
+      "name": "split_replay_IVR",
+      "type": "split-based-on",
+      "transitions": [
+        {
+          "next": "set_oth_ext_replay",
+          "event": "noMatch"
+        },
+        {
+          "next": "set_sales",
+          "event": "match",
+          "conditions": [
+            {
+              "friendly_name": "SALES",
+              "arguments": [
+                "{{widgets.replay_IVR.Digits}}"
+              ],
+              "type": "equal_to",
+              "value": "1"
+            }
+          ]
+        },
+        {
+          "next": "set_parts",
+          "event": "match",
+          "conditions": [
+            {
+              "friendly_name": "PARTS",
+              "arguments": [
+                "{{widgets.replay_IVR.Digits}}"
+              ],
+              "type": "equal_to",
+              "value": "2"
+            }
+          ]
+        },
+        {
+          "next": "set_support",
+          "event": "match",
+          "conditions": [
+            {
+              "friendly_name": "SUPPORT",
+              "arguments": [
+                "{{widgets.replay_IVR.Digits}}"
+              ],
+              "type": "equal_to",
+              "value": "3"
+            }
+          ]
+        },
+        {
+          "next": "set_reception",
+          "event": "match",
+          "conditions": [
+            {
+              "friendly_name": "RECEPTION",
+              "arguments": [
+                "{{widgets.replay_IVR.Digits}}"
+              ],
+              "type": "equal_to",
+              "value": "0"
+            }
+          ]
+        }
+      ],
+      "properties": {
+        "input": "{{widgets.replay_IVR.Digits}}",
+        "offset": {
+          "x": 440,
+          "y": 480
+        }
+      }
+    },
+    {
+      "name": "set_oth_ext_replay",
+      "type": "set-variables",
+      "transitions": [
+        {
+          "next": "get_extension",
+          "event": "next"
+        }
+      ],
+      "properties": {
+        "variables": [
+          {
+            "value": "{{widgets.replay_IVR.Digits}}",
+            "key": "set_extension"
+          }
+        ],
+        "offset": {
+          "x": 530,
+          "y": 750
+        }
+      }
+    },
+    {
+      "name": "No_input",
+      "type": "say-play",
+      "transitions": [
+        {
+          "next": "set_reception",
+          "event": "audioComplete"
+        }
+      ],
+      "properties": {
+        "offset": {
+          "x": 960,
+          "y": 480
+        },
+        "loop": 1,
+        "say": "Ok, transferring you to the reception team."
+      }
+    },
+    {
+      "name": "set_reception",
+      "type": "set-variables",
+      "transitions": [
+        {
+          "next": "get_extension",
+          "event": "next"
+        }
+      ],
+      "properties": {
+        "variables": [
+          {
+            "value": "100",
+            "key": "set_extension"
+          }
+        ],
+        "offset": {
+          "x": 40,
+          "y": 750
+        }
+      }
+    },
+    {
+      "name": "set_parts",
+      "type": "set-variables",
+      "transitions": [
+        {
+          "next": "get_extension",
+          "event": "next"
+        }
+      ],
+      "properties": {
+        "variables": [
+          {
+            "value": "300",
+            "key": "set_extension"
+          }
+        ],
+        "offset": {
+          "x": -970,
+          "y": 750
+        }
+      }
+    },
+    {
+      "name": "set_sales",
+      "type": "set-variables",
+      "transitions": [
+        {
+          "next": "get_extension",
+          "event": "next"
+        }
+      ],
+      "properties": {
+        "variables": [
+          {
+            "value": "200",
+            "key": "set_extension"
+          }
+        ],
+        "offset": {
+          "x": -630,
+          "y": 750
+        }
+      }
+    },
+    {
+      "name": "set_support",
+      "type": "set-variables",
+      "transitions": [
+        {
+          "next": "get_extension",
+          "event": "next"
+        }
+      ],
+      "properties": {
+        "variables": [
+          {
+            "value": "400",
+            "key": "set_extension"
+          }
+        ],
+        "offset": {
+          "x": -290,
+          "y": 750
+        }
+      }
+    }
+  ],
+  "initial_state": "Trigger",
+  "flags": {
+    "allow_concurrent_calls": true
+  }
+}
