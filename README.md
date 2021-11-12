@@ -5,7 +5,7 @@
 Twilio Runtime serverless functions for the Spoke Developer API.
 
 ## Overview
-This repository contains quickstart functions and example flows that make it easy to interconnect the Spoke Developer API with Twilio applications such as Studio and Flex. Using this API allows you to integrate Spoke's programmable softphone app with any Twilio application that is hosted in the same account.
+This repository contains quickstart functions and example Studio flows that make it easy to interconnect the Spoke Developer API with Twilio applications such as Studio and Flex. Using this API allows you to integrate Spoke's programmable softphone app with any Twilio application that is hosted in the same account.
 
 ## Features
 
@@ -88,7 +88,7 @@ To add the example flows to your Twilio project:
 1. Copy the flow JSON from the example file.
 2. Create a new Studio Flow in your Twilio Console, and select `Import from JSON`
 3. Paste in the JSON you copied in Step 1.
-4. Update any `Run Function` widgets to set the `SERVICE`, `ENVIRONMENT` and `FUNCTION` settings for your twilio environment.
+4. Update any `Run Function` widgets to set the `SERVICE`, `ENVIRONMENT` and `FUNCTION` settings for your Twilio environment.
 5. Publish the flow.
 
 To test the flow, you'll need to attach a Twilio Phone Number to the Flow, and make sure to have your Spoke environment properly setup and running. Once done, you're good to go!
