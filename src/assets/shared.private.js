@@ -67,7 +67,7 @@ const withAccessToken = (asyncHandlerFunction) => {
 const spokeApiRequestHeaders = (accessToken) => {
   return {
     "Content-Type": "application/json",
-    "Authorization": `Bearer ${accessToken}`,
+    Authorization: `Bearer ${accessToken}`,
     "User-Agent": "Twilio Runtime",
     "Cache-Control": "no-cache"
   };

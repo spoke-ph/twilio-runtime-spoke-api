@@ -56,7 +56,7 @@ describe("Shared", () => {
         .post("/")
         .reply(500, { });
       const { error } = await shared.getAccessToken(context);
-      expect(error.toString()).to.equal("Error: Request failed with status code 500");
+      expect(error.toString()).to.equal("AxiosError: Request failed with status code 500");
     });
   });
 
