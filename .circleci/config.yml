@@ -1,4 +1,19 @@
 version: 2.1
+
+aliases:
+  - &npmrc
+    name: Populate .npmrc
+    command: |
+      echo "@spoke-ph:registry=https://registry.npmjs.org/" >> ~/.npmrc
+      echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' >> ~/.npmrc
+      echo "audit-level=critical" >> ~/.npmrc
+      echo "ignore-scripts=true" >> ~/.npmrc
+  - &disable_ssh_strict_host
+    name: Turn off StrictHostKeyChecking for github.com
+    command: |
+      mkdir -p ~/.ssh
+      echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
+
 jobs:
   build:
     working_directory: ~/twilio-runtime-spoke-api
@@ -7,36 +22,40 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Update npm to 10.8.2
+          name: Update NPM
           command: |
-              sudo npm i -g npm@10.8.2
-              npm --version
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
+            sudo npm i -g npm@10.9.2
+            npm --version
+      - run: *npmrc
       - run:
-          name: NPM Install
-          command: npm install
-      - save_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-          paths:
-            - ./node_modules
+          name: Install build-scripts
+          command: |
+            mkdir ~/tools
+            cd ~/tools
+            npm install @spoke-ph/build-scripts@4
+      - run:
+          name: NPM Setup
+          command: |
+            export PATH="$HOME/tools/node_modules/.bin:$PATH"
+            npm run setup:ci
+      - run: *disable_ssh_strict_host
+      - run:
+          name: Check package.json version
+          command: npx sp-check-released-version
+      - run:
+          name: Checking changelog
+          command: npx sp-changelog
       - run:
           name: Test
           command: npm test
       - store_artifacts:
           path: coverage
           prefix: coverage
-      - deploy:
-          name: Tag Github Release
-          command: |
-              if [[ ("${CIRCLE_BRANCH}" == "main") && ($VERSION != *"SNAPSHOT") ]]; then
-                npm --loglevel silent run version | xargs -I {} git tag "v{}"
-                git push origin --tags
-              else
-                echo "Skip as branch not main"
-              fi
+      - run:
+          name: Tag Release
+          command: npm run tag:version
+
 workflows:
-  version: 2
   build_test_deploy:
     jobs:
       - build:
