@@ -29,6 +29,11 @@
     "sinon": "^19.0.2",
     "twilio-run": "^4.1.0"
   },
+  "overrides": {
+    "request": {
+      "form-data": "2.5.5"
+    }
+  },
   "engines": {
     "node": "18"
   },
