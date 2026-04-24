@@ -4,17 +4,12 @@
   "private": true,
   "scripts": {
     "version": "echo $npm_package_version",
-    "setup": "npm exec --location=global sp-validate-config && npm audit && npm ci",
-    "setup:ci": "sp-validate-config --skip-global-package-version && npm audit && npm ci",
-    "tag:version": "sp-tag-version",
     "lint": "eslint .",
-    "check": "sp-changelog && npm run lint",
     "start": "npm run lint && twilio-run",
     "deploy": "npm run lint && npm run test && twilio serverless:deploy",
-    "test": "npm run check && nyc mocha \"test/**/*.test.js\" && nyc report --reporter=html",
+    "test": "npm run lint && nyc mocha \"test/**/*.test.js\" && nyc report --reporter=html",
     "test:quick": "mocha \"test/**/*.test.js\"",
-    "test:watch": "DEBUG=true mocha \"test/**/*.test.js\" --watch --watch-files ./src/**/*.js, ./test/**/*.js",
-    "release:changelog": "sp-release-changelog"
+    "test:watch": "DEBUG=true mocha \"test/**/*.test.js\" --watch --watch-files ./src/**/*.js, ./test/**/*.js"
   },
   "dependencies": {
     "@twilio/runtime-handler": "2.1.0",

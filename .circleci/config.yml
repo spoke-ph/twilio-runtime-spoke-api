@@ -8,12 +8,6 @@ aliases:
       echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' >> ~/.npmrc
       echo "audit-level=critical" >> ~/.npmrc
       echo "ignore-scripts=true" >> ~/.npmrc
-  - &disable_ssh_strict_host
-    name: Turn off StrictHostKeyChecking for github.com
-    command: |
-      mkdir -p ~/.ssh
-      echo -e "Host github.com\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
-
 jobs:
   build:
     working_directory: ~/twilio-runtime-spoke-api

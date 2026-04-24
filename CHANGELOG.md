@@ -3,12 +3,7 @@
 This repository adheres to semantic versioning and follows the conventions of [keepachangelog.com](http://keepachangelog.com).
 
 ## [Unreleased]
-### Added
-- GitHub Actions workflows (auto-dep-upgrade, auto-pr-review)
-- `.npmrc`
-
 ### Changed
-- Upgrade CircleCI config to use `@spoke-ph/build-scripts@4`
 - Upgrade deps
   - npm audit fix
   - Override `form-data` to 2.5.5 to resolve critical vulnerability in `request`
