@@ -32,7 +32,6 @@ jobs:
           command: |
             export PATH="$HOME/tools/node_modules/.bin:$PATH"
             npm run setup:ci
-      - run: *disable_ssh_strict_host
       - run:
           name: Check package.json version
           command: npx sp-check-released-version
