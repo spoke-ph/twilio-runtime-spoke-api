@@ -8,9 +8,9 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Update NPM
+          name: Update npm to 10.8.2
           command: |
-            sudo npm i -g npm@10.9.2
+            sudo npm i -g npm@10.8.2
             npm --version
       - run:
           name: NPM Install
