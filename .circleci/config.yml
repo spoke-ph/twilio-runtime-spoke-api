@@ -1,14 +1,5 @@
 version: 2.1
 
-aliases:
-  - &npmrc
-    name: Populate .npmrc
-    command: |
-      echo "@spoke-ph:registry=https://registry.npmjs.org/" >> ~/.npmrc
-      echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' >> ~/.npmrc
-      echo "audit-level=critical" >> ~/.npmrc
-      echo "ignore-scripts=true" >> ~/.npmrc
-
 jobs:
   build:
     working_directory: ~/twilio-runtime-spoke-api
@@ -21,33 +12,24 @@ jobs:
           command: |
             sudo npm i -g npm@10.9.2
             npm --version
-      - run: *npmrc
       - run:
-          name: Install build-scripts
-          command: |
-            mkdir ~/tools
-            cd ~/tools
-            npm install @spoke-ph/build-scripts@4
-      - run:
-          name: NPM Setup
-          command: |
-            export PATH="$HOME/tools/node_modules/.bin:$PATH"
-            npm run setup:ci
-      - run:
-          name: Check package.json version
-          command: npx sp-check-released-version
-      - run:
-          name: Checking changelog
-          command: npx sp-changelog
+          name: NPM Install
+          command: npm ci
       - run:
           name: Test
           command: npm test
       - store_artifacts:
           path: coverage
           prefix: coverage
-      - run:
-          name: Tag Release
-          command: npm run tag:version
+      - deploy:
+          name: Tag Github Release
+          command: |
+            if [[ ("${CIRCLE_BRANCH}" == "main") && ($VERSION != *"SNAPSHOT") ]]; then
+              npm --loglevel silent run version | xargs -I {} git tag "v{}"
+              git push origin --tags
+            else
+              echo "Skip as branch not main"
+            fi
 
 workflows:
   build_test_deploy:
