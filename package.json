@@ -1,15 +1,15 @@
 {
   "name": "twilio-runtime-spoke-api",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "private": true,
   "scripts": {
-    "lint": "eslint src",
+    "version": "echo $npm_package_version",
+    "lint": "eslint .",
     "start": "npm run lint && twilio-run",
     "deploy": "npm run lint && npm run test && twilio serverless:deploy",
     "test": "npm run lint && nyc mocha \"test/**/*.test.js\" && nyc report --reporter=html",
     "test:quick": "mocha \"test/**/*.test.js\"",
-    "test:watch": "DEBUG=true mocha \"test/**/*.test.js\" --watch --watch-files ./src/**/*.js, ./test/**/*.js",
-    "version": "echo $npm_package_version"
+    "test:watch": "DEBUG=true mocha \"test/**/*.test.js\" --watch --watch-files ./src/**/*.js, ./test/**/*.js"
   },
   "dependencies": {
     "@twilio/runtime-handler": "2.1.0",
@@ -28,6 +28,11 @@
     "nyc": "^17.1.0",
     "sinon": "^19.0.2",
     "twilio-run": "^4.1.0"
+  },
+  "overrides": {
+    "request": {
+      "form-data": "2.5.5"
+    }
   },
   "engines": {
     "node": "18"
