@@ -3,6 +3,8 @@
 This repository adheres to semantic versioning and follows the conventions of [keepachangelog.com](http://keepachangelog.com).
 
 ## [Unreleased]
+
+## [1.3.0] - 2026-04-28
 ### Changed
 - Upgrade deps
   - npm audit fix
@@ -48,7 +50,8 @@ This repository adheres to semantic versioning and follows the conventions of [k
 - Circle CI build config
   - Lint & test, github release tagging when merging non-SNAPSHOT versions to `main`
 
-[Unreleased]: https://github.com/spoke-ph/twilio-runtime-spoke-api/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/spoke-ph/twilio-runtime-spoke-api/compare/v1.3.0...HEAD
+[1.3.0]: https://github.com/spoke-ph/twilio-runtime-spoke-api/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/spoke-ph/twilio-runtime-spoke-api/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/spoke-ph/twilio-runtime-spoke-api/compare/v1.0.1...v1.1.0
 [1.0.1]: https://github.com/spoke-ph/twilio-runtime-spoke-api/compare/v1.0.0...v1.0.1
